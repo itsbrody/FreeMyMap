@@ -1,10 +1,8 @@
-# IDE
-.idea/
-.vscode/
-
-# OS
 .DS_Store
 Thumbs.db
-
-# Local config (use config.example.php as template)
-includes/config.php
+.idea/
+.vscode/
+*.swp
+*.swo
+/tmp/freemymap_ratelimit/
+.env

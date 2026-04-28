@@ -1,6 +1,21 @@
-RewriteEngine On
+# FreeMyMap – Apache Configuration
 
-# Redirect all requests to index.php (except existing files/directories)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]
+RewriteEngine On
+RewriteRule ^api/convert$ includes/api.php [L,QSA]
+RewriteRule ^includes/ - [F,L]
+RewriteRule ^lang/ - [L]
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+Options -Indexes
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
