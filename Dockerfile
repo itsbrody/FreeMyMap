@@ -19,4 +19,7 @@ COPY --chown=www-data:www-data . /var/www/html/
 # Sicherheit: includes/ nicht direkt erreichbar (zusätzlich zu .htaccess)
 RUN chmod 750 /var/www/html/includes/
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -sf http://localhost/ || exit 1
+
 EXPOSE 80
