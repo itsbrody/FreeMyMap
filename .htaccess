@@ -1,7 +1,7 @@
 # FreeMyMap – Apache Configuration
 
 RewriteEngine On
-RewriteRule ^api/convert$ includes/api.php [L,QSA]
+RewriteRule ^api/convert$ includes/api.php [END,QSA]
 RewriteRule ^includes/ - [F,L]
 RewriteRule ^lang/ - [L]
 
