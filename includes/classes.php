@@ -54,6 +54,14 @@ class CoordinateExtractor {
             }
         }
         
+        // Fallback: Extract place name from /place/.../ URL and geocode via Nominatim
+        if (preg_match('#/place/([^/]+)/#', $url, $m)) {
+            $result = self::geocodeFromPlacePath($m[1]);
+            if ($result) {
+                return $result;
+            }
+        }
+        
         return null;
     }
     
@@ -65,36 +73,73 @@ class CoordinateExtractor {
     }
     
     private static function resolveShortUrl(string $url): ?string {
-        if (!ini_get('allow_url_fopen')) {
+        if (!function_exists('curl_init')) {
             return null;
         }
         
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'HEAD',
-                'follow_location' => 0,
-                'timeout' => 5,
-                'max_redirects' => 0,
-            ]
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_NOBODY         => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS      => 5,
+            CURLOPT_TIMEOUT        => 10,
+            CURLOPT_USERAGENT      => 'Mozilla/5.0 (compatible)',
+            CURLOPT_RETURNTRANSFER => true,
         ]);
+        curl_exec($ch);
+        $finalUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
         
-        $resolved = $url;
-        for ($i = 0; $i < 5; $i++) {
-            $headers = @get_headers($resolved, true, $context);
-            if ($headers === false) break;
+        return ($finalUrl && $finalUrl !== $url && $httpCode < 400)
+            ? $finalUrl
+            : null;
+    }
+    
+    /**
+     * Extract address from Google Maps /place/ path and geocode via Nominatim.
+     * Tries progressively shorter query strings (drops leading name segments).
+     */
+    private static function geocodeFromPlacePath(string $placeSegment): ?array {
+        if (!function_exists('curl_init')) {
+            return null;
+        }
+        
+        $decoded = urldecode(str_replace('+', ' ', $placeSegment));
+        $parts = array_map('trim', explode(',', $decoded));
+        
+        // Try progressively: all parts, then drop first, then drop first two, ...
+        // Stop when only one part is left (city-level minimum).
+        $minParts = 1;
+        for ($skip = 0; $skip <= count($parts) - $minParts; $skip++) {
+            $query = implode(', ', array_slice($parts, $skip));
             
-            $location = $headers['Location'] ?? $headers['location'] ?? null;
-            if (is_array($location)) {
-                $location = end($location);
+            $nomUrl = 'https://nominatim.openstreetmap.org/search?q='
+                . urlencode($query) . '&format=json&limit=1';
+            
+            $ch = curl_init($nomUrl);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_USERAGENT      => 'FreeMyMap/1.0 (https://fmm.tools.klare-beratung.de)',
+                CURLOPT_TIMEOUT        => 10,
+            ]);
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            
+            if ($httpCode !== 200 || $response === false) {
+                continue;
             }
-            if ($location) {
-                $resolved = $location;
-            } else {
-                break;
+            
+            $results = json_decode($response, true);
+            if ($results && count($results) > 0) {
+                $lat = (float)$results[0]['lat'];
+                $lon = (float)$results[0]['lon'];
+                return self::validated($lat, $lon);
             }
         }
         
-        return ($resolved !== $url) ? $resolved : null;
+        return null;
     }
 }
 
