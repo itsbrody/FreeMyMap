@@ -54,9 +54,19 @@ class CoordinateExtractor {
             }
         }
         
-        // Fallback: Extract place name from /place/.../ URL and geocode via Nominatim
+        // Fallback 1: Extract place name from /place/.../ URL and geocode via Nominatim
         if (preg_match('#/place/([^/]+)/#', $url, $m)) {
             $result = self::geocodeFromPlacePath($m[1]);
+            if ($result) {
+                return $result;
+            }
+        }
+        
+        // Fallback 2: q= parameter contains text (not coordinates) → geocode via Nominatim
+        parse_str(parse_url($url, PHP_URL_QUERY) ?? '', $params);
+        $q = $params['q'] ?? null;
+        if ($q && !preg_match('/^-?\d+\.?\d*,\s*-?\d+\.?\d*$/', $q)) {
+            $result = self::geocodeFromPlacePath(urlencode($q));
             if ($result) {
                 return $result;
             }

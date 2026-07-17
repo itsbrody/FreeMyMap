@@ -35,11 +35,12 @@
 
 | Source | Format | Example |
 |---|---|---|
-| Google Maps | Shortened | `https://maps.app.goo.gl/xyz123` (server only) |
-| Google Maps | Place/Marker | `https://www.google.de/maps/place/.../@lat,lon/data=!3d...!4d...` |
 | Google Maps | Coordinates | `https://www.google.com/maps/@48.137,11.575,15z` |
-| Google Maps | Search query | `https://www.google.com/maps?q=48.137,11.575` |
+| Google Maps | Place/Marker | `https://www.google.de/maps/place/.../@lat,lon/data=!3d...!4d...` |
+| Google Maps | Search (coords) | `https://www.google.com/maps?q=48.137,11.575` |
 | Apple Maps | Link | `https://maps.apple.com/?ll=48.137,11.575` |
+| Google Maps | Shortened | `https://maps.app.goo.gl/xyz123` (server only) |
+| Google Maps | Search (text) | `https://maps.google.com/maps?q=Restaurant+Name,+City` (server only) |
 
 ## Quick Start
 
