@@ -223,6 +223,21 @@
         }, 100);
     }
 
+    // ─── Bug-Report-Link mit Prefill ───────────────────────────
+    const BUG_REPORT_BASE = 'https://github.com/itsbrody/FreeMyMap/issues/new';
+
+    function buildBugReportUrl() {
+        const url = $('#urlInput').value.trim();
+        const params = new URLSearchParams({ template: 'bug_report.yml' });
+        if (url) params.set('betroffene-url', url);
+        return `${BUG_REPORT_BASE}?${params.toString()}`;
+    }
+
+    function updateBugReportLink() {
+        const link = $('#reportBugLink');
+        if (link) link.href = buildBugReportUrl();
+    }
+
     // ─── Init ────────────────────────────────────────────────
     async function init() {
         await loadTranslations();
@@ -236,6 +251,9 @@
         });
         $('#convertBtn').addEventListener('click', handleConvert);
         $('#urlInput').addEventListener('keypress', e => { if (e.key === 'Enter') handleConvert(); });
+        $('#urlInput').addEventListener('input', updateBugReportLink);
+        $('#reportBugLink').addEventListener('click', updateBugReportLink);
+        updateBugReportLink();
         setLanguage(currentLang);
     }
 

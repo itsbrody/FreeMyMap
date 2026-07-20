@@ -18,5 +18,7 @@
     "info_note": "Hinweis: Kurzlinks (maps.app.goo.gl) funktionieren nur in der Server-Version. Bitte öffne den Kurzlink im Browser und kopiere die vollständige URL.",
     "info_what_title": "Was macht dieses Tool?",
     "info_what_text": "FreeMyMap befreit deine Karten-Links von proprietären Diensten. Google Maps oder Apple Maps rein – OpenStreetMap raus. Frei, offen, weltweit.",
-    "footer_text": "Freie Software · Freie Daten · Freie Karten"
+    "footer_text": "Freie Software · Freie Daten · Freie Karten",
+    "footer_brand": "Ein Tool von Clear Consulting LLC",
+    "footer_report_bug": "Fehler melden"
 }

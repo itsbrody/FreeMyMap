@@ -1,0 +1,59 @@
+name: "\U0001F41B Fehlermeldung"
+description: Eine nicht funktionierende URL oder ein anderes Problem melden
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: input
+    id: betroffene-url
+    attributes:
+      label: Betroffene URL
+      description: Die Google Maps oder Apple Maps URL, die nicht korrekt umgewandelt wurde
+      placeholder: "https://maps.google.com/..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: modus
+    attributes:
+      label: Verwendeter Modus
+      options:
+        - "Server (fmm.tools.klare-beratung.de)"
+        - "Standalone-Version (HTML-Datei im eigenen Browser)"
+        - "Weiß ich nicht"
+    validations:
+      required: true
+
+  - type: textarea
+    id: erwartet
+    attributes:
+      label: Erwartetes Verhalten
+      description: Was hätte passieren sollen?
+      placeholder: "Die URL sollte zu einem OSM-Link mit den Koordinaten X, Y führen"
+    validations:
+      required: false
+
+  - type: textarea
+    id: tatsaechlich
+    attributes:
+      label: Tatsächliches Verhalten
+      description: Was ist stattdessen passiert?
+      placeholder: "Fehlermeldung, leeres Ergebnis, falsche Koordinaten, ..."
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser (nur relevant bei Standalone-Version)
+      placeholder: "Firefox 128, Chrome 126, ..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: sonstiges
+    attributes:
+      label: Sonstiges
+      description: Alles Weitere, das zur Einordnung hilfreich sein könnte
+    validations:
+      required: false

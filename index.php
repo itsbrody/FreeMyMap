@@ -105,7 +105,9 @@ if ($requestUri === '/api/convert' || str_ends_with($requestUri, '/api/convert')
     <div class="footer">
         <span data-i18n="footer_text">Freie Software · Freie Daten · Freie Karten</span><br>
         <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> ·
-        <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a>
+        <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> ·
+        <a href="#" id="reportBugLink" target="_blank" rel="noopener" data-i18n="footer_report_bug">Fehler melden</a><br>
+        <a href="https://klare-beratung.de" target="_blank" rel="noopener" style="font-size: 0.78rem; color: var(--text-muted);" data-i18n="footer_brand">Ein Tool von Clear Consulting LLC</a>
     </div>
 </div>
 
