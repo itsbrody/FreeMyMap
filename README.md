@@ -138,9 +138,9 @@ Based on [Maps2BayernAtlas](https://github.com/LukaWe/Maps2BayernAtlas) by LukaW
 **Free Software · Free Data · Free Maps** 🌍
 
 <p align="center">
-  <a href="https://klare-beratung.de/blog/freemymap-kartenlinks-ohne-google-weltweit?utm_source=github&utm_medium=readme&utm_campaign=freemymap">Hintergrund im Blog</a>
+  <a href="https://klare-beratung.de/blog/freemymap-kartenlinks-ohne-google-weltweit?utm_source=github&utm_medium=readme&utm_campaign=freemymap">Background on the blog</a> (in German)
 </p>
 
 <p align="center">
-  Erstellt im Dezember 2025 · Clear Consulting LLC · <a href="https://klare-beratung.de/?utm_source=github&utm_medium=readme&utm_campaign=freemymap">klare-beratung.de</a>
+  Created in December 2025 · Clear Consulting LLC · <a href="https://klare-beratung.de/?utm_source=github&utm_medium=readme&utm_campaign=freemymap">klare-beratung.de</a>
 </p>
